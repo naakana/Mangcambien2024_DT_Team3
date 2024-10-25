@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Thông Tin Người Dùng</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        td {
+            vertical-align: middle;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .status-icon {
+            width: 40px;
+            height: 40px;
+        }
+        .on-icon {
+            filter: brightness(1.2);
+        }
+        .off-icon {
+            filter: grayscale(100%);
+        }
+        .history-section {
+            margin-top: 40px;
+        }
+        .history-section h2 {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Thông Tin Các Sensor Nodes</h1>
+    <form action="" method="POST">
+        <table>
+            <thead>
+                <tr>
+                    <th>Node ID</th>
+                    <th>Nhiệt Độ</th>
+                    <th>Độ Ẩm</th>
+                    <th>Điều Khiển LED</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for node in quanli %}
+                <tr>
+                    <td>{{ node[0] }}</td> 
+                    <td>{{ node[1] }} °C</td>  
+                    <td>{{ node[2] }} %</td> 
+                    <td>
+                        <form action="/" method="POST">
+                            <button type="submit" name="led_control" value="{{ node[0] }}"> 
+                                {% if node[3] == 1 %}
+                                    <img src="/static/icons/led_on.png" class="status-icon on-icon" alt="LED đang bật">
+                                {% else %}
+                                    <img src="/static/icons/led_off.png" class="status-icon off-icon" alt="LED tắt">
+                                {% endif %}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </form>
+    <div class="history-section">
+        <h2>Lịch Sử Cập Nhật Nhiệt Độ và Độ Ẩm</h2>
+        <table>
+            <thead>
+                <tr>
+                    
+                    <th>ID</th>
+                    <th>STT</th>
+                    <th>Nhiệt Độ (°C)</th>
+                    <th>Độ Ẩm (%)</th>
+                    <th>Thời Gian</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in history %}
+                <tr>
+                    <td>{{ entry[0] }}</td>  
+                    <td>{{ entry[1] }}</td>  
+                    <td>{{ entry[2] }}</td>  
+                    <td>{{ entry[3] }}</td> 
+                    <td>{{ entry[4] }}</td>  
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
